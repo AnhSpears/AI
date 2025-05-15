@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ChatGPT Clone</title>
-  <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 h-screen flex overflow-hidden">
@@ -14,9 +13,9 @@
          class="w-64 bg-gray-800 text-white flex flex-col transition-all duration-300 ease-in-out">
     <div class="p-4 flex items-center justify-between">
       <span class="text-xl font-semibold sidebar-text">ChatGPT</span>
-      <!-- nút toggle -->
-      <button onclick="toggleSidebar()" 
+      <button onclick="toggleSidebar()"
               class="text-gray-300 hover:text-white focus:outline-none">
+        <!-- Hamburger icon -->
         <svg xmlns="http://www.w3.org/2000/svg"
              class="h-6 w-6"
              fill="none"
@@ -30,8 +29,10 @@
       </button>
     </div>
 
-    <nav class="flex-1 px-2 space-y-2 overflow-y-auto">
-      <button class="w-full flex items-center px-2 py-2 hover:bg-gray-700 rounded transition">
+    <!-- New Chat btn -->
+    <div class="px-2">
+      <button id="newChatBtn"
+              class="w-full flex items-center px-3 py-2 mb-2 bg-gray-700 hover:bg-gray-600 rounded transition">
         <svg xmlns="http://www.w3.org/2000/svg"
              class="h-5 w-5"
              fill="none"
@@ -44,6 +45,11 @@
         </svg>
         <span class="ml-2 sidebar-text">New Chat</span>
       </button>
+    </div>
+
+    <!-- List of conversations -->
+    <nav id="chatList" class="flex-1 px-2 space-y-1 overflow-y-auto">
+      <!-- JS sẽ render vào đây -->
     </nav>
 
     <div class="p-4">
@@ -63,17 +69,12 @@
     </div>
   </aside>
 
-  <!-- MAIN -->
+  <!-- MAIN AREA -->
   <div class="flex-1 flex flex-col transition-all duration-300 ease-in-out">
-    <!-- header -->
     <header class="bg-white px-6 py-4 shadow">
       <h1 class="text-2xl font-bold">Chat with GPT</h1>
     </header>
-
-    <!-- chat window -->
     <main id="chatWindow" class="flex-1 px-6 py-4 space-y-4 overflow-y-auto bg-gray-50"></main>
-
-    <!-- input area -->
     <footer class="bg-white px-6 py-4 shadow flex items-center">
       <textarea id="userInput"
                 class="flex-1 border border-gray-300 rounded px-3 py-2 resize-none focus:outline-none focus:ring"
@@ -86,7 +87,7 @@
     </footer>
   </div>
 
-  <!-- inline toggle handler -->
+  <!-- inline: toggle sidebar -->
   <script>
     function toggleSidebar() {
       const sb = document.getElementById('sidebar');
