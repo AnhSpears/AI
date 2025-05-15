@@ -12,9 +12,9 @@
   <aside id="sidebar"
          class="w-64 bg-gray-800 text-white flex flex-col transition-all duration-300 ease-in-out">
     <div class="p-4 flex items-center justify-between">
-      <!-- thêm class sidebar-text để JS dễ select -->
       <span class="text-xl font-semibold sidebar-text">ChatGPT</span>
-      <button id="toggleBtn"
+      <!-- thêm onclick trực tiếp -->
+      <button onclick="toggleSidebar()" 
               class="text-gray-300 hover:text-white focus:outline-none">
         <svg xmlns="http://www.w3.org/2000/svg"
              class="h-6 w-6"
@@ -80,7 +80,17 @@
     </footer>
   </div>
 
-  <!-- phải load script sau hết để chắc DOM đã có -->
+  <!-- Inline script để toggle sidebar ngay lập tức -->
+  <script>
+    function toggleSidebar() {
+      const sb = document.getElementById('sidebar');
+      sb.classList.toggle('w-64');
+      sb.classList.toggle('w-16');
+      document.querySelectorAll('.sidebar-text').forEach(el => el.classList.toggle('hidden'));
+    }
+  </script>
+
+  <!-- nếu bạn vẫn dùng script.js cho chat, giữ nguyên dòng này -->
   <script src="script.js"></script>
 </body>
 </html>
