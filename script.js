@@ -7,39 +7,70 @@ document.addEventListener('DOMContentLoaded', () => {
   const sendBtn    = document.getElementById('sendBtn');
 
   // Data
-  let conversations = [];      // mảng các phiên chat
-  let currentId     = null;    // id của phiên đang mở
+  let conversations = [];
+  let currentId     = null;
 
-  // Tạo một phiên chat mới và chọn nó
+  // Tạo và chọn conversation mới
   function createConversation() {
-    const id = Date.now().toString();
+    const id    = Date.now().toString();
     const title = `Chat ${conversations.length + 1}`;
     conversations.push({ id, title, messages: [] });
     selectConversation(id);
     renderConversationList();
   }
 
-  // Render sidebar list
+  // Đổi tên conversation
+  function renameConversation(id) {
+    const conv = conversations.find(c => c.id === id);
+    const newName = prompt('Nhập tên mới cho cuộc chat:', conv.title);
+    if (newName && newName.trim()) {
+      conv.title = newName.trim();
+      renderConversationList();
+    }
+  }
+
+  // Render sidebar list kèm nút rename
   function renderConversationList() {
     chatList.innerHTML = '';
     conversations.forEach(conv => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'flex items-center justify-between mb-1';
+
+      // nút chọn chat
       const btn = document.createElement('button');
       btn.className = [
-        'w-full text-left px-3 py-2 rounded flex items-center transition',
-        conv.id === currentId
-          ? 'bg-gray-700 hover:bg-gray-700'
-          : 'hover:bg-gray-700'
+        'flex-1 text-left px-3 py-2 rounded transition',
+        conv.id === currentId ? 'bg-gray-700 hover:bg-gray-700' : 'hover:bg-gray-700'
       ].join(' ');
       btn.textContent = conv.title;
       btn.onclick = () => selectConversation(conv.id);
-      chatList.appendChild(btn);
+
+      // nút rename (pencil icon)
+      const renameBtn = document.createElement('button');
+      renameBtn.className = 'ml-2 p-1 hover:bg-gray-700 rounded';
+      renameBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="h-4 w-4 text-gray-300 hover:text-white"
+             fill="none" viewBox="0 0 24 24"
+             stroke="currentColor">
+          <path stroke-linecap="round" 
+                stroke-linejoin="round" 
+                stroke-width="2" 
+                d="M15.232 5.232l3.536 3.536M9 11l3 3L19.071 6.929a1.5 1.5 0 00-2.121-2.121L9 11z"/>
+        </svg>`;
+      renameBtn.onclick = () => renameConversation(conv.id);
+
+      wrapper.appendChild(btn);
+      wrapper.appendChild(renameBtn);
+      chatList.appendChild(wrapper);
     });
   }
 
-  // Chọn vào một conversation, load messages lên UI
+  // Chọn conversation và load lại
   function selectConversation(id) {
     currentId = id;
     const conv = conversations.find(c => c.id === id);
+    // render messages
     chatWindow.innerHTML = '';
     conv.messages.forEach(m => appendBubble(m.text, m.sender));
     input.value = '';
@@ -47,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderConversationList();
   }
 
-  // Tạo bubble text
+  // Tạo bubble
   function appendBubble(text, sender) {
     const wrapper = document.createElement('div');
     wrapper.className = 'flex ' + (sender === 'user' ? 'justify-end' : 'justify-start');
@@ -67,11 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const text = input.value.trim();
     if (!text) return;
     const conv = conversations.find(c => c.id === currentId);
-    // push user
     conv.messages.push({ sender: 'user', text });
     appendBubble(text, 'user');
     input.value = '';
-    // giả lập bot trả lời
     setTimeout(() => {
       const reply = 'Đây là phản hồi giả lập từ ChatGPT.';
       conv.messages.push({ sender: 'bot', text: reply });
@@ -79,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
   }
 
-  // Event bindings
+  // Bind events
   newChatBtn.addEventListener('click', createConversation);
   sendBtn.addEventListener('click', sendMessage);
   input.addEventListener('keydown', e => {
@@ -89,6 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Khởi tạo khi load: tạo conversation đầu tiên
+  // Khởi tạo 1 conversation đầu tiên
   createConversation();
 });
