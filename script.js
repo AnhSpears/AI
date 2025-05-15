@@ -1,16 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // DOM
   const chatList   = document.getElementById('chatList');
   const newChatBtn = document.getElementById('newChatBtn');
   const chatWindow = document.getElementById('chatWindow');
   const input      = document.getElementById('userInput');
   const sendBtn    = document.getElementById('sendBtn');
 
-  // Data
   let conversations = [];
   let currentId     = null;
 
-  // Tạo và chọn conversation mới
+  // Tạo cuộc chat mới
   function createConversation() {
     const id    = Date.now().toString();
     const title = `Chat ${conversations.length + 1}`;
@@ -19,24 +17,23 @@ document.addEventListener('DOMContentLoaded', () => {
     renderConversationList();
   }
 
-  // Đổi tên conversation
+  // Đổi tên chat
   function renameConversation(id) {
     const conv = conversations.find(c => c.id === id);
-    const newName = prompt('Nhập tên mới cho cuộc chat:', conv.title);
-    if (newName && newName.trim()) {
+    const newName = prompt('Tên mới:', conv.title);
+    if (newName?.trim()) {
       conv.title = newName.trim();
       renderConversationList();
     }
   }
 
-  // Render sidebar list kèm nút rename
+  // Render sidebar kèm nút rename
   function renderConversationList() {
     chatList.innerHTML = '';
     conversations.forEach(conv => {
       const wrapper = document.createElement('div');
       wrapper.className = 'flex items-center justify-between mb-1';
 
-      // nút chọn chat
       const btn = document.createElement('button');
       btn.className = [
         'flex-1 text-left px-3 py-2 rounded transition',
@@ -45,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.textContent = conv.title;
       btn.onclick = () => selectConversation(conv.id);
 
-      // nút rename (pencil icon)
       const renameBtn = document.createElement('button');
       renameBtn.className = 'ml-2 p-1 hover:bg-gray-700 rounded';
       renameBtn.innerHTML = `
@@ -56,21 +52,20 @@ document.addEventListener('DOMContentLoaded', () => {
           <path stroke-linecap="round" 
                 stroke-linejoin="round" 
                 stroke-width="2" 
-                d="M15.232 5.232l3.536 3.536M9 11l3 3L19.071 6.929a1.5 1.5 0 00-2.121-2.121L9 11z"/>
+                d="M15.232 5.232l3.536 3.536
+                   M9 11l3 3L19.071 6.929a1.5 1.5 0 00-2.121-2.121L9 11z"/>
         </svg>`;
       renameBtn.onclick = () => renameConversation(conv.id);
 
-      wrapper.appendChild(btn);
-      wrapper.appendChild(renameBtn);
+      wrapper.append(btn, renameBtn);
       chatList.appendChild(wrapper);
     });
   }
 
-  // Chọn conversation và load lại
+  // Chọn chat và load tin nhắn
   function selectConversation(id) {
     currentId = id;
     const conv = conversations.find(c => c.id === id);
-    // render messages
     chatWindow.innerHTML = '';
     conv.messages.forEach(m => appendBubble(m.text, m.sender));
     input.value = '';
@@ -80,35 +75,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Tạo bubble
   function appendBubble(text, sender) {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'flex ' + (sender === 'user' ? 'justify-end' : 'justify-start');
+    const wrap = document.createElement('div');
+    wrap.className = 'flex ' + (sender === 'user' ? 'justify-end' : 'justify-start');
     const bubble = document.createElement('div');
     bubble.className = [
       'max-w-[75%] px-4 py-2 rounded-lg transition-colors duration-200',
       sender === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'
     ].join(' ');
     bubble.textContent = text;
-    wrapper.appendChild(bubble);
-    chatWindow.appendChild(wrapper);
+    wrap.appendChild(bubble);
+    chatWindow.appendChild(wrap);
     chatWindow.scrollTop = chatWindow.scrollHeight;
   }
 
   // Gửi tin nhắn
   function sendMessage() {
-    const text = input.value.trim();
-    if (!text) return;
+    const t = input.value.trim();
+    if (!t) return;
     const conv = conversations.find(c => c.id === currentId);
-    conv.messages.push({ sender: 'user', text });
-    appendBubble(text, 'user');
+    conv.messages.push({ sender: 'user', text: t });
+    appendBubble(t, 'user');
     input.value = '';
     setTimeout(() => {
-      const reply = 'Đây là phản hồi giả lập từ ChatGPT.';
-      conv.messages.push({ sender: 'bot', text: reply });
-      appendBubble(reply, 'bot');
+      const r = 'Đây là phản hồi giả lập từ ChatGPT.';
+      conv.messages.push({ sender: 'bot', text: r });
+      appendBubble(r, 'bot');
     }, 500);
   }
 
-  // Bind events
   newChatBtn.addEventListener('click', createConversation);
   sendBtn.addEventListener('click', sendMessage);
   input.addEventListener('keydown', e => {
@@ -118,6 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Khởi tạo 1 conversation đầu tiên
+  // Khởi tạo chat đầu tiên
   createConversation();
 });
