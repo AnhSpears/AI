@@ -1,16 +1,18 @@
+// DOM elements
+const sidebar = document.getElementById('sidebar');
+const toggleBtn = document.getElementById('toggleBtn');
 const chatWindow = document.getElementById('chatWindow');
 const input = document.getElementById('userInput');
 const sendBtn = document.getElementById('sendBtn');
 
+// Hàm thêm bubble tin nhắn
 function appendBubble(text, sender) {
   const wrapper = document.createElement('div');
-  wrapper.className = 'flex';
-  // nếu sender là user thì căn phải, ngược lại căn trái
-  wrapper.classList.add(sender === 'user' ? 'justify-end' : 'justify-start');
+  wrapper.className = 'flex ' + (sender === 'user' ? 'justify-end' : 'justify-start');
 
   const bubble = document.createElement('div');
   bubble.className = [
-    'max-w-[75%] px-4 py-2 rounded-lg',
+    'max-w-[75%] px-4 py-2 rounded-lg transition-colors duration-200',
     sender === 'user'
       ? 'bg-blue-600 text-white'
       : 'bg-gray-200 text-gray-800'
@@ -22,21 +24,33 @@ function appendBubble(text, sender) {
   chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
+// Xử lý gửi tin nhắn
 sendBtn.addEventListener('click', () => {
   const text = input.value.trim();
   if (!text) return;
   appendBubble(text, 'user');
   input.value = '';
-  // mô phỏng bot trả lời
+  // simulate bot response
   setTimeout(() => {
     appendBubble('Đây là phản hồi giả lập từ ChatGPT.', 'bot');
   }, 500);
 });
 
-// Bắt sự kiện Enter
+// Enter để gửi
 input.addEventListener('keydown', (e) => {
   if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault();
     sendBtn.click();
   }
+});
+
+// Toggle sidebar
+toggleBtn.addEventListener('click', () => {
+  // chuyển class w-64 <-> w-16
+  sidebar.classList.toggle('w-64');
+  sidebar.classList.toggle('w-16');
+  // ẩn/hiện text
+  sidebar.querySelectorAll('.sidebar-text').forEach(el => {
+    el.classList.toggle('hidden');
+  });
 });
