@@ -8,37 +8,86 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 h-screen flex overflow-hidden">
-  <!-- Sidebar -->
-  <aside class="w-64 bg-gray-800 text-white flex flex-col">
-    <div class="p-4 text-xl font-semibold">ChatGPT</div>
-    <nav class="flex-1 px-4 space-y-2 overflow-y-auto">
-      <button class="w-full text-left px-3 py-2 hover:bg-gray-700 rounded">+ New Chat</button>
-      <!-- Bạn có thể thêm các mục khác ở đây -->
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar"
+         class="w-64 bg-gray-800 text-white flex flex-col transition-all duration-300 ease-in-out">
+    <!-- header của sidebar -->
+    <div class="p-4 flex items-center justify-between">
+      <span class="text-xl font-semibold sidebar-text">ChatGPT</span>
+      <button id="toggleBtn"
+              class="text-gray-300 hover:text-white focus:outline-none">
+        <!-- Hamburger icon -->
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="h-6 w-6"
+             fill="none"
+             viewBox="0 0 24 24"
+             stroke="currentColor">
+          <path stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- menu -->
+    <nav class="flex-1 px-2 space-y-2 overflow-y-auto">
+      <button class="sidebar-btn w-full flex items-center px-2 py-2 hover:bg-gray-700 rounded transition">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="h-5 w-5"
+             fill="none"
+             viewBox="0 0 24 24"
+             stroke="currentColor">
+          <path stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4v16m8-8H4" />
+        </svg>
+        <span class="ml-2 sidebar-text">New Chat</span>
+      </button>
+      <!-- bạn có thể thêm item khác tương tự -->
     </nav>
+
+    <!-- logout -->
     <div class="p-4">
-      <button class="w-full bg-red-600 hover:bg-red-700 py-2 rounded">Logout</button>
+      <button class="sidebar-btn w-full flex items-center justify-center px-2 py-2 bg-red-600 hover:bg-red-700 rounded transition">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="h-5 w-5"
+             fill="none"
+             viewBox="0 0 24 24"
+             stroke="currentColor">
+          <path stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 11-4 0v-1m0-8V7a2 2 0 114 0v1" />
+        </svg>
+        <span class="ml-2 sidebar-text">Logout</span>
+      </button>
     </div>
   </aside>
 
-  <!-- Main Chat Area -->
-  <div class="flex-1 flex flex-col">
-    <!-- Header -->
-    <header class="bg-white px-6 py-4 shadow">
+  <!-- MAIN -->
+  <div class="flex-1 flex flex-col transition-all duration-300 ease-in-out">
+    <!-- header -->
+    <header class="bg-white px-6 py-4 shadow flex items-center">
       <h1 class="text-2xl font-bold">Chat with GPT</h1>
     </header>
 
-    <!-- Chat Window -->
-    <main id="chatWindow" class="flex-1 px-6 py-4 space-y-4 overflow-y-auto">
-      <!-- Các tin nhắn sẽ được append ở đây -->
+    <!-- chat window -->
+    <main id="chatWindow"
+          class="flex-1 px-6 py-4 space-y-4 overflow-y-auto">
+      <!-- tin nhắn user/bot sẽ append ở đây -->
     </main>
 
-    <!-- Input Area -->
+    <!-- input -->
     <footer class="bg-white px-6 py-4 shadow flex items-center">
       <textarea id="userInput"
                 class="flex-1 border border-gray-300 rounded px-3 py-2 resize-none focus:outline-none focus:ring"
                 rows="1"
                 placeholder="Type your message…"></textarea>
-      <button id="sendBtn" class="ml-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+      <button id="sendBtn"
+              class="ml-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
         Send
       </button>
     </footer>
