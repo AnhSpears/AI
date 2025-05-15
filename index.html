@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ChatGPT Clone</title>
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 h-screen flex overflow-hidden">
@@ -12,12 +11,11 @@
   <!-- SIDEBAR -->
   <aside id="sidebar"
          class="w-64 bg-gray-800 text-white flex flex-col transition-all duration-300 ease-in-out">
-    <!-- header của sidebar -->
     <div class="p-4 flex items-center justify-between">
+      <!-- thêm class sidebar-text để JS dễ select -->
       <span class="text-xl font-semibold sidebar-text">ChatGPT</span>
       <button id="toggleBtn"
               class="text-gray-300 hover:text-white focus:outline-none">
-        <!-- Hamburger icon -->
         <svg xmlns="http://www.w3.org/2000/svg"
              class="h-6 w-6"
              fill="none"
@@ -31,9 +29,8 @@
       </button>
     </div>
 
-    <!-- menu -->
     <nav class="flex-1 px-2 space-y-2 overflow-y-auto">
-      <button class="sidebar-btn w-full flex items-center px-2 py-2 hover:bg-gray-700 rounded transition">
+      <button class="w-full flex items-center px-2 py-2 hover:bg-gray-700 rounded transition">
         <svg xmlns="http://www.w3.org/2000/svg"
              class="h-5 w-5"
              fill="none"
@@ -46,12 +43,10 @@
         </svg>
         <span class="ml-2 sidebar-text">New Chat</span>
       </button>
-      <!-- bạn có thể thêm item khác tương tự -->
     </nav>
 
-    <!-- logout -->
     <div class="p-4">
-      <button class="sidebar-btn w-full flex items-center justify-center px-2 py-2 bg-red-600 hover:bg-red-700 rounded transition">
+      <button class="w-full flex items-center justify-center px-2 py-2 bg-red-600 hover:bg-red-700 rounded transition">
         <svg xmlns="http://www.w3.org/2000/svg"
              class="h-5 w-5"
              fill="none"
@@ -67,20 +62,12 @@
     </div>
   </aside>
 
-  <!-- MAIN -->
+  <!-- MAIN AREA -->
   <div class="flex-1 flex flex-col transition-all duration-300 ease-in-out">
-    <!-- header -->
-    <header class="bg-white px-6 py-4 shadow flex items-center">
+    <header class="bg-white px-6 py-4 shadow">
       <h1 class="text-2xl font-bold">Chat with GPT</h1>
     </header>
-
-    <!-- chat window -->
-    <main id="chatWindow"
-          class="flex-1 px-6 py-4 space-y-4 overflow-y-auto">
-      <!-- tin nhắn user/bot sẽ append ở đây -->
-    </main>
-
-    <!-- input -->
+    <main id="chatWindow" class="flex-1 px-6 py-4 space-y-4 overflow-y-auto"></main>
     <footer class="bg-white px-6 py-4 shadow flex items-center">
       <textarea id="userInput"
                 class="flex-1 border border-gray-300 rounded px-3 py-2 resize-none focus:outline-none focus:ring"
@@ -93,6 +80,7 @@
     </footer>
   </div>
 
+  <!-- phải load script sau hết để chắc DOM đã có -->
   <script src="script.js"></script>
 </body>
 </html>
