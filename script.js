@@ -1,3 +1,4 @@
+// chỉ chứa chat logic, không động chạm sidebar
 document.addEventListener('DOMContentLoaded', () => {
   const chatWindow = document.getElementById('chatWindow');
   const input = document.getElementById('userInput');
@@ -29,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
   });
 
-  input.addEventListener('keydown', (e) => {
+  input.addEventListener('keydown', e => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendBtn.click();
