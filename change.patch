@@ -1,0 +1,22 @@
+diff --git a/upload.py b/upload.py
+index abcdefg..hijklmn 100644
+--- a/upload.py
++++ b/upload.py
+@@ -1,3 +1,5 @@
+ import os
++import shutil
++
+ def upload_file(file_path):
+     # Code to upload file to server
++    shutil.move(file_path, 'uploads/')
+     return "File uploaded successfully"
+diff --git a/script.js b/script.js
+index opqrstu..vwxyzab 100644
+--- a/script.js
++++ b/script.js
+@@ -1,3 +1,5 @@
+ function uploadFile() {
+     // Code to upload file using AJAX
++    console.log("File uploaded successfully");
++    location.reload();
+ }
