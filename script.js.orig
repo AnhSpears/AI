@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
   const chatList   = document.getElementById('chatList');
-    console.log("File uploaded successfully");
-    location.reload();
   const newChatBtn = document.getElementById('newChatBtn');
   const chatWindow = document.getElementById('chatWindow');
   const input      = document.getElementById('userInput');
